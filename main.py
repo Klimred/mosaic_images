@@ -11,8 +11,6 @@ import cv2
 
 # set to True if the images need to be resized to the standard size
 resizing_needed = False
-#the code doesn't like dark parts of the image, so we add a light boost to the pixel values
-light_boost = -10
 
 unresized_images_directory = "./images/unresized"
 input_images_directory = "./images/cropped jpgs"
@@ -20,12 +18,13 @@ input_images_directory = "./images/cropped jpgs"
 # change path to the image you want to convert
 target_image = Image.open("./images/target_image/0.jpg")
 # the original dimensions of the target image were 2048x1152
-target_dimensions = (128, 72)
+dimension_presets = ((128, 72), (256, 144), (512, 288), (1024, 576), (2048, 1152))
+target_dimensions = dimension_presets[0]
 Image.MAX_IMAGE_PIXELS = 600000000
 target_np = image_to_np(target_image, target_dimensions)
 
 mosaic_images = []
-standard_size = 90
+standard_size = 60
 out_path = "./out"
 
 
@@ -52,7 +51,7 @@ def find_fitting_image(target_pixel, images):
     closest_image = None
     closest_distance = float("inf")
     for image in images:
-        distance = np.linalg.norm((target_pixel + light_boost) - (np.mean(image) + light_boost))
+        distance = np.linalg.norm(target_pixel - np.mean(image))
         if distance < closest_distance:
             closest_distance = distance
             closest_image = image
