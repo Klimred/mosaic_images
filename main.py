@@ -2,7 +2,6 @@ import datetime
 import time
 
 from image_to_np import image_to_np
-from sklearn.cluster import MiniBatchKMeans
 from PIL import Image
 from sort_by_rgb import *
 import os
@@ -49,31 +48,15 @@ def load_and_resize_images(directory, standard_size, num_files):
     return images, means
 
 
-def calculate_histogram(image, bins):
-    # Reshape the image to a 3-dimensional array if necessary
-    if image.ndim == 1:
-        image = image.reshape(1, 1, 3)
-    hsv_image = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
-    hist = cv2.calcHist([hsv_image], [0, 1, 2], None, [bins, bins, bins], [0, 180, 0, 256, 0, 256])
-    cv2.normalize(hist, hist)
-    return hist.flatten()
-
-
-def load_and_calculate_histograms(directory, standard_size, num_files, bins):
-    images = []
-    histograms = []
-    for i in range(num_files):
-        image = cv2.cvtColor(cv2.imread(f"{directory}/image ({i+1}).jpg"), cv2.COLOR_BGR2RGB)
-        resized_image = cv2.resize(image, (standard_size, standard_size))
-        images.append(resized_image)
-        histograms.append(calculate_histogram(resized_image, bins))
-    return images, histograms
-
-
-def find_fitting_image(target_pixel, images, histograms):
-    target_hist = calculate_histogram(target_pixel, bins=len(histograms[0]))
-    distances = [cv2.compareHist(target_hist, hist, cv2.HISTCMP_CHISQR) for hist in histograms]
-    return images[np.argmin(distances)]
+def find_fitting_image(target_pixel, images):
+    closest_image = None
+    closest_distance = float("inf")
+    for image in images:
+        distance = np.linalg.norm((target_pixel + light_boost) - (np.mean(image) + light_boost))
+        if distance < closest_distance:
+            closest_distance = distance
+            closest_image = image
+    return closest_image
 
 
 if resizing_needed:
@@ -81,17 +64,21 @@ if resizing_needed:
 
 
 # import all images to be used in the mosaic into an array
-images, histograms = load_and_calculate_histograms(input_images_directory, standard_size, num_files, bins=[8, 8, 8])
+mosaic_images, means = load_and_resize_images(input_images_directory, standard_size, num_files)
 print("Images loaded")
 
 canvas = Image.new("RGB", (target_dimensions[0]*standard_size, target_dimensions[1]*standard_size), "white")
 # Create chunks of the output image
 for i in range(target_dimensions[0]):
+    start_time = time.time()
     for j in range(target_dimensions[1]):
+        time_begin = time.time()
         target_pixel = target_np[i, j]
-        fitting_image = find_fitting_image(target_pixel, images, histograms)
+        time_before_finding = time.time()
+        fitting_image = find_fitting_image(target_pixel, mosaic_images)
+        time_after_finding = time.time()
         pil_image = Image.fromarray(fitting_image)
-        canvas.paste(pil_image, (i * standard_size, j * standard_size,))
+        canvas.paste(pil_image, (i*standard_size, j*standard_size,))
     if i % 10 == 0:
         print(f"Column {i}/{target_dimensions[0]} took {time.time() - start_time} seconds")
         print(f"Finding the fitting image took {time_after_finding - time_before_finding} seconds")
