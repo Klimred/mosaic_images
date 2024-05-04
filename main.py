@@ -4,7 +4,6 @@ from sort_by_rgb import *
 import os
 from resize_images import resize_images
 import cv2
-from scipy.spatial import KDTree
 
 
 # set to True if the images need to be resized to the standard size
@@ -23,19 +22,19 @@ def load_and_resize_images(directory, standard_size, num_files):
         image = cv2.cvtColor(cv2.imread(f"{directory}/image ({i+1}).jpg"), cv2.COLOR_BGR2RGB)
         resized_image = cv2.resize(image, (standard_size, standard_size))
         images.append(resized_image)
-        means.append(np.mean(np.array(resized_image), axis=(0, 1)))  # Calculate mean for each color channel
+        means.append(np.mean(np.array(resized_image)))
     return images, means
 
 
-# Build a k-d tree from the mean pixel values
-def build_kd_tree(means):
-    return KDTree(np.array(means).reshape(-1, 1))
-
-# Find the fitting image using the k-d tree
-def find_fitting_image(target_pixel, kd_tree, images):
-    target_mean = np.mean(target_pixel, axis=(0, 1))  # Calculate mean for each color channel
-    distance, index = kd_tree.query([target_mean])
-    return images[index[0]]
+def find_fitting_image(target_pixel, images):
+    closest_image = None
+    closest_distance = float("inf")
+    for image in images:
+        distance = np.linalg.norm(target_pixel - np.mean(image))
+        if distance < closest_distance:
+            closest_distance = distance
+            closest_image = image
+    return closest_image
 
 unresized_images_directory = "./images/unresized"
 input_images_directory = "./images/cropped jpgs"
@@ -63,10 +62,6 @@ chunks_vertical = target_dimensions[1] // chunk_size
 mosaic_images, means = load_and_resize_images(input_images_directory, standard_size, num_files)
 print("Images loaded")
 
-kd_tree = KDTree(np.array(means))
-
-print("KD tree built")
-
 # Create chunks of the output image
 for i in range(chunks_horizontal):
     for j in range(chunks_vertical):
@@ -78,7 +73,7 @@ for i in range(chunks_horizontal):
             print(f"Processing chunk {i}_{j} {x}/{chunk_size}")
             for y in range(chunk_size):
                 target_pixel = target_np[i*chunk_size + x, j*chunk_size + y]
-                fitting_image = find_fitting_image(target_pixel, kd_tree, mosaic_images)
+                fitting_image = find_fitting_image(target_pixel, mosaic_images)
                 pil_image = Image.fromarray(cv2.cvtColor(fitting_image, cv2.COLOR_BGR2RGB))
                 chunk_canvas.paste(pil_image, (x * standard_size, y * standard_size,))
 
