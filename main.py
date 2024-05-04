@@ -1,16 +1,26 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+from image_to_np import image_to_np
+from PIL import Image
+import os
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+def count_files_in_directory(path):
+    return len([f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))])
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+directory_path = './images/mosaic_images/'
+num_files = count_files_in_directory(directory_path)
+
+# change path to the image you want to convert
+target_image = Image.open("./images/target_image/0.jpg")
+target_dimensions = (2048, 1152)
+target_np = image_to_np(target_image, target_dimensions)
+
+input_images_directory = "./images/mosaic_images/"
+
+# import all images to be used in the mosaic into an array
+mosaic_images = []
+for i in range(count_files_in_directory(input_images_directory)):
+    image = Image.open(f"./images/mosaic_images/images/cropped jpgs/image ({i}).jpg")
+    mosaic_images.append(image)
+
+
