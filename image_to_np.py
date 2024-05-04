@@ -8,3 +8,4 @@ def image_to_np(image, dimensions):
     img_array = np.array(image)
     # transpose to [x,y,rgb]
     img_array = np.transpose(img_array, (1, 0, 2))
+    return img_array

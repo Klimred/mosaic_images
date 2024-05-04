@@ -45,3 +45,7 @@ def sort_by_brightness(images):
 
     # now red_values is sorted by brightness value, and for each red value you have the corresponding image
     return brightness_values
+
+
+def red_green_blue_brightness(images):
+    return sort_by_red(images), sort_by_green(images), sort_by_blue(images), sort_by_brightness(images)
