@@ -1,4 +1,4 @@
-from PIL import Image
+import cv2
 
 
 # create an array of images from the unresized folder
@@ -6,7 +6,7 @@ def resize_images(standard_size, length):
     print(length)
     images = []
     for i in range(length):
-        image = Image.open(f"./images/unresized/image ({i+1}).jpg")
+        image = cv2.imread(f"./images/unresized/image ({i+1}).jpg")
         images.append(image)
     i = 1
     for image in images:

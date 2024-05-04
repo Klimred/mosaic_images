@@ -3,6 +3,7 @@ from PIL import Image
 from sort_by_rgb import *
 import os
 from resize_images import resize_images
+import cv2
 
 
 # set to True if the images need to be resized to the standard size
@@ -18,8 +19,8 @@ def load_and_resize_images(directory, standard_size, num_files):
     images = []
     means = []
     for i in range(num_files):
-        image = Image.open(f"{directory}/image ({i+1}).jpg")
-        resized_image = image.resize((standard_size, standard_size))
+        image = cv2.cvtColor(cv2.imread(f"{directory}/image ({i+1}).jpg"), cv2.COLOR_BGR2RGB)
+        resized_image = cv2.resize(image, (standard_size, standard_size))
         images.append(resized_image)
         means.append(np.mean(np.array(resized_image)))
     return images, means
@@ -73,7 +74,8 @@ for i in range(chunks_horizontal):
             for y in range(chunk_size):
                 target_pixel = target_np[i*chunk_size + x, j*chunk_size + y]
                 fitting_image = find_fitting_image(target_pixel, mosaic_images)
-                chunk_canvas.paste(fitting_image, (x*standard_size, y*standard_size, ))
+                pil_image = Image.fromarray(cv2.cvtColor(fitting_image, cv2.COLOR_BGR2RGB))
+                chunk_canvas.paste(pil_image, (x * standard_size, y * standard_size,))
 
         # Save the processed chunk as a separate image
         chunk_canvas.save(f"{out_path}/chunk_{i}_{j}.jpg")
