@@ -3,12 +3,10 @@ import time
 
 from PIL import Image
 from sort_by_rgb import *
+from color_distribution import *
 import os
 from resize_images import resize_images
 import cv2
-
-# set to True if the images need to be resized to the standard size
-resizing_needed = False
 
 unresized_images_directory = "./images/unresized"
 input_images_directory = "./images/cropped jpgs"
@@ -63,10 +61,6 @@ def find_fitting_image(pixel, images, img_hists):
 
 
 def make_image():
-    print(target_image.shape)
-    if resizing_needed:
-        resize_images(standard_size, num_files)
-
     # import all images to be used in the mosaic into an array
     mosaic_images, means = load_and_resize_images(input_images_directory, standard_size, num_files)
     histograms = [calculate_histogram(image, (8, 8, 8)) for image in mosaic_images]
@@ -99,9 +93,11 @@ def make_image():
 num_files = count_files_in_directory(unresized_images_directory)
 # only run when the py is run directly
 if __name__ == "__main__":
-    input = input("r for resize, m for mosaic: ")
+    input = input("r for resize, m for mosaic, d for distribution: ")
     if input == "r":
         resize_images(standard_size, num_files)
     elif input == "m" or " ":
         make_image()
+    elif input == "d":
+        color_distribution()
 
