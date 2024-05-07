@@ -11,7 +11,8 @@ def resize_images(standard_size, length):
     i = 1
     for image in images:
         image = image.resize((standard_size, standard_size))
-        image.save(f"./images/cropped jpgs/image ({i}).jpg")
+        image = image.convert("RGB")
+        image.save(f"./images/cropped jpgs/image ({i}).jpg", "JPEG")
         i += 1
     print("resized_images")
 
