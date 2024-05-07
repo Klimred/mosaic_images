@@ -25,7 +25,7 @@ target_image = cv2.resize(target_image, target_dimensions)
 target_image = target_image.transpose((1, 0, 2))
 
 mosaic_images = []
-standard_size = 30
+standard_size = 90
 out_path = "./out"
 
 
