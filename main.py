@@ -13,7 +13,7 @@ from scipy.spatial import KDTree
 Image.MAX_IMAGE_PIXELS = 600000000
 
 # get the target image and resize it to the target dimensions
-target_image = cv2.imread("./images/target_image/0.jpg")
+target_image = cv2.imread(target_directory)
 target_image = cv2.cvtColor(target_image, cv2.COLOR_BGR2HSV)
 target_image = cv2.resize(target_image, target_dimensions)
 target_image = target_image.transpose((1, 0, 2))
