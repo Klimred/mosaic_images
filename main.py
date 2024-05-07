@@ -1,3 +1,4 @@
+from config_values import *
 import datetime
 import time
 
@@ -9,24 +10,13 @@ from resize_images import resize_images
 import cv2
 from scipy.spatial import KDTree
 
-unresized_images_directory = "./images/unresized"
-input_images_directory = "./images/cropped jpgs"
-
-
-# the original dimensions of the target image were 2048x1152
-dimension_presets = ((128, 72), (256, 144), (512, 288), (1024, 576), (2048, 1152))
-target_dimensions = dimension_presets[2]
 Image.MAX_IMAGE_PIXELS = 600000000
 
 # get the target image and resize it to the target dimensions
-target_image = cv2.imread("./images/target_image/1.jpg")
+target_image = cv2.imread("./images/target_image/0.jpg")
 target_image = cv2.cvtColor(target_image, cv2.COLOR_BGR2HSV)
 target_image = cv2.resize(target_image, target_dimensions)
 target_image = target_image.transpose((1, 0, 2))
-
-mosaic_images = []
-standard_size = 90
-out_path = "./out"
 
 
 def count_files_in_directory(directory):
@@ -62,22 +52,18 @@ def make_image():
     for column in range(target_dimensions[0]):
         start_time = time.time()
         for row in range(target_dimensions[1]):
-            time_begin = time.time()
             target_pixel = target_image[column, row]
-            time_before_finding = time.time()
             fitting_image = find_fitting_image(target_pixel, mosaic_images, means_tree)
-            time_after_finding = time.time()
             pil_image = Image.fromarray(fitting_image)
             canvas.paste(pil_image, (column * standard_size, row * standard_size,))
             if (column % 20 == 0) & (row == target_dimensions[1] - 1):
                 print(f"Column {column}/{target_dimensions[0]} took {time.time() - start_time} seconds")
-                print(f"Finding the fitting image took {time_after_finding - time_before_finding} seconds")
-                print(f"Pasting the image took: {time.time() - time_after_finding} seconds")
                 print(f"Estimated time left: {(time.time() - start_time) * (target_dimensions[0] - column)} seconds")
 
     # Save the processed image
     current_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     canvas.save(f"{out_path}/mosaic_{current_date}.jpg")
+    # canvas.save(f"{out_path}/mosaic_{current_date}.png", "PNG")
     print(f"Saved mosaic image as mosaic_{current_date}.jpg")
 
 
@@ -87,8 +73,7 @@ if __name__ == "__main__":
     input = input("r for resize, m for mosaic, d for distribution: ")
     if input == "r":
         resize_images(standard_size, num_files)
-    elif input == "m" or " ":
+    elif input == "m":
         make_image()
     elif input == "d":
         color_distribution()
-
