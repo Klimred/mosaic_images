@@ -7,6 +7,7 @@ from color_distribution import *
 import os
 from resize_images import resize_images
 import cv2
+from scipy.spatial import KDTree
 
 unresized_images_directory = "./images/unresized"
 input_images_directory = "./images/cropped jpgs"
@@ -40,30 +41,20 @@ def load_and_resize_images(directory, size, amount_of_files):
         image = cv2.cvtColor(cv2.imread(f"{directory}/image ({file + 1}).jpg"), cv2.COLOR_BGR2HSV)
         resized_image = cv2.resize(image, (size, size))
         images.append(resized_image)
-        local_means.append(np.mean(np.array(resized_image)))
+        local_means.append(np.mean(resized_image, axis=(0, 1)))  # Calculate mean color for each image
     return images, local_means
 
 
-def calculate_histogram(image, bins):
-    # Reshape the image to a 3-dimensional array if necessary
-    if image.ndim == 1:
-        image = image.reshape(1, 1, 3)
-    hist = cv2.calcHist([image], [0, 1, 2], None, bins, [0, 256, 0, 256, 0, 256])
-    cv2.normalize(hist, hist)
-    return hist.flatten()
-
-
-def find_fitting_image(pixel, images, img_hists):
-    target_hist = calculate_histogram(pixel, (8, 8, 8))
-    distances = [cv2.compareHist(target_hist, hist, cv2.HISTCMP_CORREL) for hist in img_hists]
-    closest_image = images[np.argmax(distances)]
+def find_fitting_image(pixel, images, means_tree):
+    _, index = means_tree.query(pixel)  # Find the nearest neighbor in the k-d tree
+    closest_image = images[index]
     return cv2.cvtColor(closest_image, cv2.COLOR_HSV2RGB)  # Convert from HSV to RGB
 
 
 def make_image():
     # import all images to be used in the mosaic into an array
     mosaic_images, means = load_and_resize_images(input_images_directory, standard_size, num_files)
-    histograms = [calculate_histogram(image, (8, 8, 8)) for image in mosaic_images]
+    means_tree = KDTree(means)  # Create a k-d tree for the mean colors of the input images
     print("Images loaded")
 
     canvas = Image.new("RGB", (target_dimensions[0] * standard_size, target_dimensions[1] * standard_size), "white")
@@ -74,7 +65,7 @@ def make_image():
             time_begin = time.time()
             target_pixel = target_image[column, row]
             time_before_finding = time.time()
-            fitting_image = find_fitting_image(target_pixel, mosaic_images, histograms)
+            fitting_image = find_fitting_image(target_pixel, mosaic_images, means_tree)
             time_after_finding = time.time()
             pil_image = Image.fromarray(fitting_image)
             canvas.paste(pil_image, (column * standard_size, row * standard_size,))
