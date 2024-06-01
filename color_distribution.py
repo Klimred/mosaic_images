@@ -6,7 +6,7 @@ from mpl_toolkits.mplot3d import Axes3D
 
 def color_distribution():
     target_image_cv2 = cv2.cvtColor(cv2.imread("./images/target_image/1.jpg"), cv2.COLOR_BGR2HSV)
-    target_image_cv2 = cv2.resize(target_image_cv2, (64, 39))
+    target_image_cv2 = cv2.resize(target_image_cv2, (43, 26))
     images, means = load_and_resize_images(input_images_directory, standard_size, num_files)
 
     h, s, v = cv2.split(target_image_cv2)

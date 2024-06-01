@@ -15,8 +15,13 @@ Image.MAX_IMAGE_PIXELS = 600000000
 # get the target image and resize it to the target dimensions
 target_image = cv2.imread(target_directory)
 target_image = cv2.cvtColor(target_image, cv2.COLOR_BGR2HSV)
+target_dimensions[1] = int(target_dimensions[0] * target_image.shape[0] / target_image.shape[1])
 target_image = cv2.resize(target_image, target_dimensions)
 target_image = target_image.transpose((1, 0, 2))
+
+# if the image is 9:16 change invert target_dimensions
+if target_image.shape[0] < target_image.shape[1]:
+    target_dimensions = [target_dimensions[1], target_dimensions[0]]
 
 
 def count_files_in_directory(directory):
@@ -62,6 +67,10 @@ def make_image():
 
     # Save the processed image
     current_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    if overlay_original_image:
+        print("Nearest neighbor mosaic image created, overlaying original image")
+        target_image_pil = Image.fromarray(cv2.cvtColor(target_image.transpose((1, 0, 2)), cv2.COLOR_HSV2RGB))
+        canvas = Image.blend(canvas, target_image_pil.resize(canvas.size), alpha=0.5)
     canvas.save(f"{out_path}/mosaic_{current_date}.jpg")
     # canvas.save(f"{out_path}/mosaic_{current_date}.png", "PNG")
     print(f"Saved mosaic image as mosaic_{current_date}.jpg")
@@ -70,10 +79,11 @@ def make_image():
 num_files = count_files_in_directory(unresized_images_directory)
 # only run when the py is run directly
 if __name__ == "__main__":
-    input = input("r for resize, m for mosaic, d for distribution: ")
-    if input == "r":
-        resize_images(standard_size, num_files)
-    elif input == "m":
-        make_image()
-    elif input == "d":
-        color_distribution()
+    while True:
+        userinput = input("r for resize, m for mosaic, d for distribution: ")
+        if userinput == "r":
+            resize_images(standard_size, num_files)
+        elif userinput == "m":
+            make_image()
+        elif userinput == "d":
+            color_distribution()
