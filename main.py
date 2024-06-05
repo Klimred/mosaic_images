@@ -3,7 +3,7 @@ import datetime
 import time
 
 from PIL import Image
-from sort_by_rgb import *
+import numpy as np
 from color_distribution import *
 import os
 from resize_images import resize_images
@@ -61,9 +61,9 @@ def make_image():
             fitting_image = find_fitting_image(target_pixel, mosaic_images, means_tree)
             pil_image = Image.fromarray(fitting_image)
             canvas.paste(pil_image, (column * standard_size, row * standard_size,))
-            if (column % 20 == 0) & (row == target_dimensions[1] - 1):
-                print(f"Column {column}/{target_dimensions[0]} took {time.time() - start_time} seconds")
-                print(f"Estimated time left: {(time.time() - start_time) * (target_dimensions[0] - column)} seconds")
+            # if (column % 20 == 0) & (row == target_dimensions[1] - 1):
+            #     print(f"Column {column}/{target_dimensions[0]} took {time.time() - start_time} seconds")
+            #     print(f"Estimated time left: {(time.time() - start_time) * (target_dimensions[0] - column)} seconds")
 
     # Save the processed image
     current_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")

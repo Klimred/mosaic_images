@@ -1,8 +1,8 @@
 sample_type = 2
-standard_size = 180
+standard_size = 270
 out_path = "./out"
 target_number = 3
-preset_to_use = 2
+preset_to_use = 1
 overlay_original_image = True
 transparency_of_overlay = 0.5
 
