@@ -7,13 +7,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78729314-dfdb-459e-ac9a-1b8525f778bd" name="Changes" comment="made configuration easier. Added the ability for the mosaic generator to adapt to every aspect ratio of the target_image.&#10;Made an option to overlay the target_image on the result for a prettier output.">
+    <list default="true" id="78729314-dfdb-459e-ac9a-1b8525f778bd" name="Changes" comment="removed unused files and functions. made resizing of images parallelized">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config_values.py" beforeDir="false" afterPath="$PROJECT_DIR$/config_values.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image_to_np.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resize_images.py" beforeDir="false" afterPath="$PROJECT_DIR$/resize_images.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sort_by_rgb.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,7 +154,14 @@
       <option name="project" value="LOCAL" />
       <updated>1717201600490</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="removed unused files and functions. made resizing of images parallelized">
+      <created>1717606829556</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1717606829556</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -182,6 +186,7 @@
     <MESSAGE value="trying to move configurations to a separate file" />
     <MESSAGE value="fixed target location" />
     <MESSAGE value="made configuration easier. Added the ability for the mosaic generator to adapt to every aspect ratio of the target_image.&#10;Made an option to overlay the target_image on the result for a prettier output." />
-    <option name="LAST_COMMIT_MESSAGE" value="made configuration easier. Added the ability for the mosaic generator to adapt to every aspect ratio of the target_image.&#10;Made an option to overlay the target_image on the result for a prettier output." />
+    <MESSAGE value="removed unused files and functions. made resizing of images parallelized" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed unused files and functions. made resizing of images parallelized" />
   </component>
 </project>

@@ -19,10 +19,6 @@ target_dimensions[1] = int(target_dimensions[0] * target_image.shape[0] / target
 target_image = cv2.resize(target_image, target_dimensions)
 target_image = target_image.transpose((1, 0, 2))
 
-# if the image is 9:16 change invert target_dimensions
-if target_image.shape[0] < target_image.shape[1]:
-    target_dimensions = [target_dimensions[1], target_dimensions[0]]
-
 
 def count_files_in_directory(directory):
     return len([name for name in os.listdir(directory)
@@ -61,9 +57,9 @@ def make_image():
             fitting_image = find_fitting_image(target_pixel, mosaic_images, means_tree)
             pil_image = Image.fromarray(fitting_image)
             canvas.paste(pil_image, (column * standard_size, row * standard_size,))
-            # if (column % 20 == 0) & (row == target_dimensions[1] - 1):
-            #     print(f"Column {column}/{target_dimensions[0]} took {time.time() - start_time} seconds")
-            #     print(f"Estimated time left: {(time.time() - start_time) * (target_dimensions[0] - column)} seconds")
+            if (column % 20 == 0) & (row == target_dimensions[1] - 1):
+                print(f"Column {column}/{target_dimensions[0]} took {time.time() - start_time} seconds")
+                print(f"Estimated time left: {(time.time() - start_time) * (target_dimensions[0] - column)} seconds")
 
     # Save the processed image
     current_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
