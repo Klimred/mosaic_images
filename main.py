@@ -1,6 +1,9 @@
+import winsound
+
 from config_values import *
 import datetime
 import time
+
 
 from PIL import Image
 import numpy as np
@@ -12,12 +15,26 @@ from scipy.spatial import KDTree
 
 Image.MAX_IMAGE_PIXELS = 600000000
 
-# get the target image and resize it to the target dimensions
-target_image = cv2.imread(target_directory)
-target_image = cv2.cvtColor(target_image, cv2.COLOR_BGR2HSV)
-target_dimensions[1] = int(target_dimensions[0] * target_image.shape[0] / target_image.shape[1])
-target_image = cv2.resize(target_image, target_dimensions)
-target_image = target_image.transpose((1, 0, 2))
+
+def load_target_image(index=0):
+    global target_image
+    target_directory = f"./images/target_image/{index}.jpg"
+    target_image = cv2.imread(target_directory)
+    target_image = cv2.cvtColor(target_image, cv2.COLOR_BGR2HSV)
+
+    original_height, original_width = target_image.shape[:2]
+
+    target_dimensions[0] = dimension_presets[preset_to_use]
+    if original_width > original_height:
+        target_dimensions[1] = int(target_dimensions[0] * original_height / original_width)
+    else:
+        target_dimensions[1] = int(target_dimensions[0] * original_width / original_height)
+        target_dimensions[0], target_dimensions[1] = target_dimensions[1], target_dimensions[0]
+
+    print (f"Target dimensions: {target_dimensions}")
+
+    target_image = cv2.resize(target_image, tuple(target_dimensions))
+    target_image = target_image.transpose((1, 0, 2))
 
 
 def count_files_in_directory(directory):
@@ -66,7 +83,10 @@ def make_image():
     if overlay_original_image:
         print("Nearest neighbor mosaic image created, overlaying original image")
         target_image_pil = Image.fromarray(cv2.cvtColor(target_image.transpose((1, 0, 2)), cv2.COLOR_HSV2RGB))
+        time_before_blend = time.time()
         canvas = Image.blend(canvas, target_image_pil.resize(canvas.size), alpha=0.5)
+        end_time = time.time()
+        print(f"Time to blend: {end_time - time_before_blend}")
     canvas.save(f"{out_path}/mosaic_{current_date}.jpg")
     # canvas.save(f"{out_path}/mosaic_{current_date}.png", "PNG")
     print(f"Saved mosaic image as mosaic_{current_date}.jpg")
@@ -76,10 +96,21 @@ num_files = count_files_in_directory(unresized_images_directory)
 # only run when the py is run directly
 if __name__ == "__main__":
     while True:
-        userinput = input("r for resize, m for mosaic, d for distribution: ")
+        load_target_image(target_number)
+        userinput = input("r for resize, m for mosaic, d for distribution,\n "
+                          "mult for multiple, q for quit: ")
         if userinput == "r":
             resize_images(standard_size, num_files)
         elif userinput == "m":
             make_image()
         elif userinput == "d":
             color_distribution()
+        elif userinput == "mult":
+            # parse two values, start and end
+            start, end = map(int, input("Enter the start and end values separated by a space: ").split())
+            for i in range(start, end+1):
+                load_target_image(i)
+                make_image()
+        elif userinput == "q":
+            break
+        winsound.MessageBeep(winsound.MB_ICONEXCLAMATION)
