@@ -1,2 +1,6 @@
-/images/
-/out/
+images/**
+out/**
+
+!images/cropped jpgs
+!images/target_image
+!images/unresized
