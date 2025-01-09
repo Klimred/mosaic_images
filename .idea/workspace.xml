@@ -7,9 +7,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78729314-dfdb-459e-ac9a-1b8525f778bd" name="Changes" comment="directory adjustment">
+    <list default="true" id="78729314-dfdb-459e-ac9a-1b8525f778bd" name="Changes" comment="test bob">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bob/bob.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +24,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Klimred &lt;fedorov.klimentii@gmail.com&gt;" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -111,7 +116,7 @@
       <option name="presentableId" value="Default" />
       <updated>1714830770850</updated>
       <workItem from="1736427961359" duration="2247000" />
-      <workItem from="1736449704453" duration="2868000" />
+      <workItem from="1736449704453" duration="3248000" />
     </task>
     <task id="LOCAL-00001" summary="introduced a file to convert any image to a np array&#10;and made a function to create arrays sorted by rgb and brightness values with pointers to the right image">
       <created>1714834559562</created>
@@ -220,7 +225,31 @@
       <option name="project" value="LOCAL" />
       <updated>1736450844851</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="directory adjustment">
+      <option name="closed" value="true" />
+      <created>1736452666031</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1736452666031</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
+      <option name="closed" value="true" />
+      <created>1736452709047</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1736452709047</updated>
+    </task>
+    <task id="LOCAL-00018" summary="test bob">
+      <option name="closed" value="true" />
+      <created>1736452810597</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1736452810597</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -251,6 +280,8 @@
     <MESSAGE value="removed unused files and functions. made resizing of images parallelized" />
     <MESSAGE value="removed a part that unnecessarily flips target_dimensions" />
     <MESSAGE value="directory adjustment" />
-    <option name="LAST_COMMIT_MESSAGE" value="directory adjustment" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
+    <MESSAGE value="test bob" />
+    <option name="LAST_COMMIT_MESSAGE" value="test bob" />
   </component>
 </project>
