@@ -1,4 +1,6 @@
 out/**
+!out/.gitkeep
+
 /images/**
 !/images/**/
 !/images/**/.gitkeep
