@@ -7,7 +7,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78729314-dfdb-459e-ac9a-1b8525f778bd" name="Changes" comment="removed a part that unnecessarily flips target_dimensions">
+    <list default="true" id="78729314-dfdb-459e-ac9a-1b8525f778bd" name="Changes" comment="directory adjustment">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/mosaic_images.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mosaic_images.iml" afterDir="false" />
@@ -52,24 +52,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/coding/python-docker-dev/app.py&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/coding/python-docker-dev/app.py",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="mosaic_images" />
@@ -112,7 +113,7 @@
       <option name="presentableId" value="Default" />
       <updated>1714830770850</updated>
       <workItem from="1736427961359" duration="2247000" />
-      <workItem from="1736449704453" duration="432000" />
+      <workItem from="1736449704453" duration="870000" />
     </task>
     <task id="LOCAL-00001" summary="introduced a file to convert any image to a np array&#10;and made a function to create arrays sorted by rgb and brightness values with pointers to the right image">
       <created>1714834559562</created>
@@ -205,7 +206,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717611801528</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="directory adjustment">
+      <option name="closed" value="true" />
+      <created>1736450580218</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1736450580218</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -235,6 +244,7 @@
     <MESSAGE value="made configuration easier. Added the ability for the mosaic generator to adapt to every aspect ratio of the target_image.&#10;Made an option to overlay the target_image on the result for a prettier output." />
     <MESSAGE value="removed unused files and functions. made resizing of images parallelized" />
     <MESSAGE value="removed a part that unnecessarily flips target_dimensions" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed a part that unnecessarily flips target_dimensions" />
+    <MESSAGE value="directory adjustment" />
+    <option name="LAST_COMMIT_MESSAGE" value="directory adjustment" />
   </component>
 </project>
